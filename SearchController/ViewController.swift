@@ -107,14 +107,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func initializeSearchController() {
         searchController = UISearchController(searchResultsController: nil)
+        
         searchController.searchResultsUpdater = self
         searchController.delegate = self
 
         searchController.searchBar.placeholder = "Search products"
 
-        definesPresentationContext = true
+//        definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.sizeToFit()
 
         searchController.loadViewIfNeeded()
