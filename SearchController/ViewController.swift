@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -28,11 +28,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         initializeSearchController()
     }
     
-    // MARK: - Actions
+    // MARK - Actions
     
-    @IBAction func setSearchContorllerActive(sender: UIBarButtonItem) {
+    @IBAction func setSearchControllerActive(sender: UIBarButtonItem) {
+        tableView.tableHeaderView = searchController.searchBar
         searchController.active = true
     }
+    
     
     // MARK: - UITableViewDataSource
     
@@ -99,23 +101,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - UISearchControllerDelegate
     
-    func presentSearchController(searchController: UISearchController) {
-        presentViewController(searchController, animated: true, completion: nil)
+    func willPresentSearchController(searchController: UISearchController) {
+        searchController.searchBar.becomeFirstResponder()
     }
     
-    // MARK: - Helpers 
+    func willDismissSearchController(searchController: UISearchController) {
+        tableView.tableHeaderView = nil
+    }
+    
+    // MARK: - Helpers
     
     func initializeSearchController() {
         searchController = UISearchController(searchResultsController: nil)
+        searchController.searchBar.placeholder = "Search products"
+        searchController.searchBar.scopeButtonTitles = ["All", "Favorites"]
         
         searchController.searchResultsUpdater = self
         searchController.delegate = self
 
-        searchController.searchBar.placeholder = "Search products"
-
-//        definesPresentationContext = true
+        definesPresentationContext = true
         searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = true
         searchController.searchBar.sizeToFit()
 
         searchController.loadViewIfNeeded()

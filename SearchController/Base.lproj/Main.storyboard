@@ -57,9 +57,9 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Yic-di-g0v">
-                        <barButtonItem key="rightBarButtonItem" title="Search" id="aYI-Hc-wz5">
+                        <barButtonItem key="rightBarButtonItem" title="Search" id="usz-WU-OFq">
                             <connections>
-                                <action selector="setSearchContorllerActive:" destination="BYZ-38-t0r" id="x6G-8c-3ha"/>
+                                <action selector="setSearchControllerActive:" destination="BYZ-38-t0r" id="7jF-eC-0Ry"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -95,14 +95,10 @@
                         <constraints>
                             <constraint firstItem="kDg-yu-rRa" firstAttribute="centerX" secondItem="GMD-qT-gIp" secondAttribute="centerX" id="TK1-Hx-5BC"/>
                             <constraint firstItem="kDg-yu-rRa" firstAttribute="centerY" secondItem="GMD-qT-gIp" secondAttribute="centerY" id="fkn-Fr-OaF"/>
-                            <constraint firstItem="kDg-yu-rRa" firstAttribute="top" secondItem="jFt-MX-XTR" secondAttribute="bottom" constant="225" id="j0v-45-Idb"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="j0v-45-Idb"/>
-                            </mask>
-                        </variation>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="productNameLabel" destination="kDg-yu-rRa" id="GDa-BD-LvJ"/>
                     </connections>
