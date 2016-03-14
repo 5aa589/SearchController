@@ -18,6 +18,7 @@ class SecondViewController: UIViewController {
         super.viewDidLoad()
 
         productNameLabel.text = product
+        title = product
     }
 
     override func didReceiveMemoryWarning() {

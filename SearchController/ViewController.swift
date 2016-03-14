@@ -28,14 +28,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         initializeSearchController()
     }
     
-    // MARK - Actions
-    
-    @IBAction func setSearchControllerActive(sender: UIBarButtonItem) {
-        tableView.tableHeaderView = searchController.searchBar
-        searchController.active = true
-    }
-    
-    
     // MARK: - UITableViewDataSource
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,17 +94,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - UISearchControllerDelegate
     
     func willPresentSearchController(searchController: UISearchController) {
-        searchController.searchBar.becomeFirstResponder()
+
     }
     
     func willDismissSearchController(searchController: UISearchController) {
-        tableView.tableHeaderView = nil
+
     }
     
     // MARK: - Helpers
     
     func initializeSearchController() {
         searchController = UISearchController(searchResultsController: nil)
+        tableView.tableHeaderView = searchController.searchBar
+        
         searchController.searchBar.placeholder = "Search products"
         searchController.searchBar.scopeButtonTitles = ["All", "Favorites"]
         
