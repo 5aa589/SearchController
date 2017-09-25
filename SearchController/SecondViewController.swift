@@ -19,6 +19,10 @@ class SecondViewController: UIViewController {
 
         productNameLabel.text = product
         title = product
+        
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
 
     override func didReceiveMemoryWarning() {

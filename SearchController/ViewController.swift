@@ -26,6 +26,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         
         initializeSearchController()
+        
+        title = "Apple Products"
+        
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        }
     }
     
     // MARK: - UITableViewDataSource
