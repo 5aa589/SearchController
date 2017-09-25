@@ -30,8 +30,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - UITableViewDataSource
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch searchController.active {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch searchController.isActive {
             
         case true:
             return filteredProducts.count
@@ -40,36 +40,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return products.count
         }
     }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-        
-        switch searchController.active {
-            
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+
+        switch searchController.isActive {
+
         case true:
             cell.textLabel?.text = filteredProducts[indexPath.row]
-            
+
         case false:
             cell.textLabel?.text = products[indexPath.row]
         }
-        
+
         return cell
     }
     
     // MARK: - UITableViewDelegate
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("detail", sender: self)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "detail", sender: self)
     }
     
     // MARK: - Navigation
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
-            let secondController = segue.destinationViewController as! SecondViewController
+            let secondController = segue.destination as! SecondViewController
             
             if let indexPath = tableView.indexPathForSelectedRow {
-                switch searchController.active {
+                switch searchController.isActive {
                     
                 case true:
                     secondController.product = filteredProducts[indexPath.row]
@@ -83,9 +83,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - UISearchResultsUpdating
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filteredProducts = products.filter { (product: String) -> Bool in
-            product.containsString(searchController.searchBar.text!)
+            product.contains(searchController.searchBar.text!)
         }
         
         tableView.reloadData()
@@ -93,31 +93,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // MARK: - UISearchControllerDelegate
     
-    func willPresentSearchController(searchController: UISearchController) {
-
+    func willPresentSearchController(_ searchController: UISearchController) {
+        
     }
     
-    func willDismissSearchController(searchController: UISearchController) {
-
+    func willDismissSearchController(_ searchController: UISearchController) {
+        
     }
     
     // MARK: - Helpers
     
     func initializeSearchController() {
         searchController = UISearchController(searchResultsController: nil)
-        tableView.tableHeaderView = searchController.searchBar
-        
+
         searchController.searchBar.placeholder = "Search products"
         searchController.searchBar.scopeButtonTitles = ["All", "Favorites"]
         
         searchController.searchResultsUpdater = self
         searchController.delegate = self
-
-        definesPresentationContext = true
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = true
-        searchController.searchBar.sizeToFit()
-
-        searchController.loadViewIfNeeded()
+        
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            tableView.tableHeaderView = searchController.searchBar
+            
+            definesPresentationContext = true
+            searchController.dimsBackgroundDuringPresentation = false
+            searchController.hidesNavigationBarDuringPresentation = true
+            searchController.searchBar.sizeToFit()
+            
+            searchController.loadViewIfNeeded()
+        }
     }
 }
